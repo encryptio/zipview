@@ -164,10 +164,15 @@ var right = function () {
 };
 
 var switchImage = function (index) {
+    state.loading = true;
+
+    var didRender = false;
     loadImage(index, function (img, err) {
         if ( state.index == index ) {
+            state.loading = false;
             state.image = img;
             state.imageError = err;
+            didRender = true;
             render();
             setTimeout(function () {
                 if ( index > 0 )
@@ -178,7 +183,8 @@ var switchImage = function (index) {
         }
     });
 
-    render();
+    if ( !didRender )
+        render();
 
     for (var k in state.imageCache) {
         var i = parseInt(k, 10);
@@ -253,6 +259,8 @@ onready(function () {
 
     state.zipURL = where;
     console.log("loading from "+where);
+
+    render();
 
     zip.createReader(new zip.HttpReader(where), function (r) {
         r.getEntries(function (entries) {
