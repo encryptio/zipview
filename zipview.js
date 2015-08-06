@@ -1,6 +1,5 @@
-"use strict";
-
 (function(){
+"use strict";
 
 var onready = (function(){
     var loaded = document.readyState == "complete";
